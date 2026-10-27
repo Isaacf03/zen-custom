@@ -1,0 +1,42 @@
+[
+  {
+    "id": 4246825494,
+    "node_id": "PRR_kwDOLmfWBM79IWoW",
+    "user": {
+      "login": "github-code-quality[bot]",
+      "id": 223894421,
+      "node_id": "BOT_kgDODVhblQ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9919?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-code-quality%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-code-quality",
+      "followers_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/zen-browser/desktop/pull/13450#pullrequestreview-4246825494",
+    "pull_request_url": "https://api.github.com/repos/zen-browser/desktop/pulls/13450",
+    "author_association": "NONE",
+    "_links": {
+      "html": {
+        "href": "https://github.com/zen-browser/desktop/pull/13450#pullrequestreview-4246825494"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/zen-browser/desktop/pulls/13450"
+      }
+    },
+    "submitted_at": "2026-05-07T18:45:07Z",
+    "commit_id": "cbd93819976f6a58c526cc9ee76d92d9608177ea"
+  }
+]

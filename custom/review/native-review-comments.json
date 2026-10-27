@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/zen-browser/desktop/pulls/comments/3203919535",
+    "pull_request_review_id": 4246825494,
+    "id": 3203919535,
+    "node_id": "PRRC_kwDOLmfWBM6-9-6v",
+    "diff_hunk": "@@ -0,0 +1,141 @@\n+/* This Source Code Form is subject to the terms of the Mozilla Public\n+ * License, v. 2.0. If a copy of the MPL was not distributed with this\n+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n+\n+import { AppConstants } from \"resource://gre/modules/AppConstants.sys.mjs\";\n+import { XPCOMUtils } from \"resource://gre/modules/XPCOMUtils.sys.mjs\";\n+import { ZenSpacesSearch } from \"resource:///modules/zen/ZenSpacesSearch.sys.mjs\";\n+\n+const lazy = {};\n+\n+XPCOMUtils.defineLazyServiceGetter(\n+  lazy,\n+  \"ZenWindowControl\",\n+  \"@mozilla.org/zen/window-control;1\",\n+  Ci.nsIZenWindowControl\n+);\n+\n+const URLBAR_HEIGHT = 340;\n+const URLBAR_WIDTH = 640;\n+\n+const FEATURES =\n+  \"titlebar,close,toolbar,location,personalbar=no,status,menubar=no,\" +\n+  `resizable,minimizable,scrollbars,width=${URLBAR_WIDTH},height=${URLBAR_HEIGHT},centerscreen`;\n+\n+class nsZenLittleWindow {\n+  init() {}\n+  uninit() {}\n+\n+  /**\n+   * Open a fresh little window, or focus an existing empty one if there\n+   * already is a little window sitting on its empty tab.\n+   *\n+   * @param {Window} opener The browser window asking for the little window.\n+   * @returns {Window|null} The window that received focus.\n+   */\n+  openLittleWindow(opener) {\n+    for (const win of this.#iterLittleWindows()) {\n+      if (this.#isOnEmptyTab(win)) {\n+        win.focus();\n+        return win;\n+      }\n+    }\n+    let win = opener.OpenBrowserWindow({\n+      zenLittleWindow: true,\n+      all: false,\n+      features: FEATURES,\n+    });\n+    win.windowUtils.suppressAnimation(true);\n+      // Hide the OS-level window until the floating urlbar is ready, so the\n+      // user never sees a half-laid-out chrome flash on top.\n+      lazy.ZenWindowControl.hide(win);\n+    return win;\n+  }\n+\n+  #isLittleWindow(win) {\n+    return (\n+      !!win._zenStartupLittleWindow ||\n+      win.document?.documentElement?.hasAttribute(\"zen-little-window\")\n+    );\n+  }\n+\n+  #isOnEmptyTab(win) {\n+    const tab = win.gBrowser?.selectedTab;\n+    return !!tab?.hasAttribute(\"zen-empty-tab\");\n+  }\n+\n+  *#iterLittleWindows() {\n+    const en = Services.wm.getEnumerator(\"navigator:browser\");\n+    while (en.hasMoreElements()) {\n+      const win = en.getNext();\n+      if (!win.closed && this.#isLittleWindow(win)) {\n+        yield win;\n+      }\n+    }\n+  }\n+\n+  onLittleWindow(win) {\n+    if (!this.#isLittleWindow(win)) {\n+      return;\n+    }\n+    ZenSpacesSearch.init(win);\n+    const observer = new win.ResizeObserver(entries => {\n+      if (win.closed) {\n+        return;\n+      }\n+      for (const entry of entries) {\n+        if (entry.target.id === \"urlbar\") {\n+          const { width, height } = entry.target.getBoundingClientRect();\n+          win.resizeTo(width, height);\n+        }\n+      }\n+    });\n+    const onClosed = event => {\n+      observer.disconnect();\n+      if (!win.closed && !event.detail?.onElementPicked) {\n+        lazy.ZenWindowControl.hide(win);\n+        win.close();\n+      } else {\n+        const [width, height] = [1000, 600];",
+    "path": "src/zen/little-window/ZenLittleWindow.sys.mjs",
+    "commit_id": "cbd93819976f6a58c526cc9ee76d92d9608177ea",
+    "original_commit_id": "cbd93819976f6a58c526cc9ee76d92d9608177ea",
+    "user": {
+      "login": "github-code-quality[bot]",
+      "id": 223894421,
+      "node_id": "BOT_kgDODVhblQ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9919?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-code-quality%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-code-quality",
+      "followers_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "## Unused variable, import, function or class\n\nUnused variable width.\n\n---\n\nTo fix this without changing behavior, keep the existing constants but actually use them.</p>\n<p>In <code>src/zen/little-window/ZenLittleWindow.sys.mjs</code>, inside <code>onClosed</code>\u2019s <code>else</code> block (around lines 99\u2013101), replace the hardcoded resize call with the local variables already defined:</p>\n<ul>\n<li>Keep <code>const [width, height] = [1000, 600];</code></li>\n<li>Change <code>win.resizeTo(1000, 600);</code> to <code>win.resizeTo(width, height);</code></li>\n</ul>\n<p>This removes the unused-variable warning while preserving exact runtime behavior.",
+    "created_at": "2026-05-07T18:45:07Z",
+    "updated_at": "2026-05-07T18:45:07Z",
+    "html_url": "https://github.com/zen-browser/desktop/pull/13450#discussion_r3203919535",
+    "pull_request_url": "https://api.github.com/repos/zen-browser/desktop/pulls/13450",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/zen-browser/desktop/pulls/comments/3203919535"
+      },
+      "html": {
+        "href": "https://github.com/zen-browser/desktop/pull/13450#discussion_r3203919535"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/zen-browser/desktop/pulls/13450"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/zen-browser/desktop/pulls/comments/3203919535/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 99,
+    "original_line": 99,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 99,
+    "position": 99,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/zen-browser/desktop/pulls/comments/3203919545",
+    "pull_request_review_id": 4246825494,
+    "id": 3203919545,
+    "node_id": "PRRC_kwDOLmfWBM6-9-65",
+    "diff_hunk": "@@ -0,0 +1,141 @@\n+/* This Source Code Form is subject to the terms of the Mozilla Public\n+ * License, v. 2.0. If a copy of the MPL was not distributed with this\n+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n+\n+import { AppConstants } from \"resource://gre/modules/AppConstants.sys.mjs\";\n+import { XPCOMUtils } from \"resource://gre/modules/XPCOMUtils.sys.mjs\";\n+import { ZenSpacesSearch } from \"resource:///modules/zen/ZenSpacesSearch.sys.mjs\";\n+\n+const lazy = {};\n+\n+XPCOMUtils.defineLazyServiceGetter(\n+  lazy,\n+  \"ZenWindowControl\",\n+  \"@mozilla.org/zen/window-control;1\",\n+  Ci.nsIZenWindowControl\n+);\n+\n+const URLBAR_HEIGHT = 340;\n+const URLBAR_WIDTH = 640;\n+\n+const FEATURES =\n+  \"titlebar,close,toolbar,location,personalbar=no,status,menubar=no,\" +\n+  `resizable,minimizable,scrollbars,width=${URLBAR_WIDTH},height=${URLBAR_HEIGHT},centerscreen`;\n+\n+class nsZenLittleWindow {\n+  init() {}\n+  uninit() {}\n+\n+  /**\n+   * Open a fresh little window, or focus an existing empty one if there\n+   * already is a little window sitting on its empty tab.\n+   *\n+   * @param {Window} opener The browser window asking for the little window.\n+   * @returns {Window|null} The window that received focus.\n+   */\n+  openLittleWindow(opener) {\n+    for (const win of this.#iterLittleWindows()) {\n+      if (this.#isOnEmptyTab(win)) {\n+        win.focus();\n+        return win;\n+      }\n+    }\n+    let win = opener.OpenBrowserWindow({\n+      zenLittleWindow: true,\n+      all: false,\n+      features: FEATURES,\n+    });\n+    win.windowUtils.suppressAnimation(true);\n+      // Hide the OS-level window until the floating urlbar is ready, so the\n+      // user never sees a half-laid-out chrome flash on top.\n+      lazy.ZenWindowControl.hide(win);\n+    return win;\n+  }\n+\n+  #isLittleWindow(win) {\n+    return (\n+      !!win._zenStartupLittleWindow ||\n+      win.document?.documentElement?.hasAttribute(\"zen-little-window\")\n+    );\n+  }\n+\n+  #isOnEmptyTab(win) {\n+    const tab = win.gBrowser?.selectedTab;\n+    return !!tab?.hasAttribute(\"zen-empty-tab\");\n+  }\n+\n+  *#iterLittleWindows() {\n+    const en = Services.wm.getEnumerator(\"navigator:browser\");\n+    while (en.hasMoreElements()) {\n+      const win = en.getNext();\n+      if (!win.closed && this.#isLittleWindow(win)) {\n+        yield win;\n+      }\n+    }\n+  }\n+\n+  onLittleWindow(win) {\n+    if (!this.#isLittleWindow(win)) {\n+      return;\n+    }\n+    ZenSpacesSearch.init(win);\n+    const observer = new win.ResizeObserver(entries => {\n+      if (win.closed) {\n+        return;\n+      }\n+      for (const entry of entries) {\n+        if (entry.target.id === \"urlbar\") {\n+          const { width, height } = entry.target.getBoundingClientRect();\n+          win.resizeTo(width, height);\n+        }\n+      }\n+    });\n+    const onClosed = event => {\n+      observer.disconnect();\n+      if (!win.closed && !event.detail?.onElementPicked) {\n+        lazy.ZenWindowControl.hide(win);\n+        win.close();\n+      } else {\n+        const [width, height] = [1000, 600];",
+    "path": "src/zen/little-window/ZenLittleWindow.sys.mjs",
+    "commit_id": "cbd93819976f6a58c526cc9ee76d92d9608177ea",
+    "original_commit_id": "cbd93819976f6a58c526cc9ee76d92d9608177ea",
+    "user": {
+      "login": "github-code-quality[bot]",
+      "id": 223894421,
+      "node_id": "BOT_kgDODVhblQ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9919?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-code-quality%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-code-quality",
+      "followers_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-code-quality%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "## Unused variable, import, function or class\n\nUnused variable height.\n\n---\n\n<p>Remove the unused variable declaration inside <code>onClosed</code> in <code>src/zen/little-window/ZenLittleWindow.sys.mjs</code>.</p>\n<p>Best fix without changing functionality:</p>\n<ul>\n<li>In the <code>else</code> branch of <code>onClosed</code>, delete <code>const [width, height] = [1000, 600];</code>.</li>\n<li>Keep <code>win.resizeTo(1000, 600);</code> as-is (or alternatively use constants consistently, but the minimal safe change is deletion only).</li>\n<li>No imports, methods, or additional definitions are needed.</li>\n</ul>",
+    "created_at": "2026-05-07T18:45:07Z",
+    "updated_at": "2026-05-07T18:45:07Z",
+    "html_url": "https://github.com/zen-browser/desktop/pull/13450#discussion_r3203919545",
+    "pull_request_url": "https://api.github.com/repos/zen-browser/desktop/pulls/13450",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/zen-browser/desktop/pulls/comments/3203919545"
+      },
+      "html": {
+        "href": "https://github.com/zen-browser/desktop/pull/13450#discussion_r3203919545"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/zen-browser/desktop/pulls/13450"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/zen-browser/desktop/pulls/comments/3203919545/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 99,
+    "original_line": 99,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 99,
+    "position": 99,
+    "subject_type": "line"
+  }
+]

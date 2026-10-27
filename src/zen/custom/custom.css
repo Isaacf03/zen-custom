@@ -1,0 +1,7 @@
+:root[zen-little-window] #urlbar-container { display: none !important; }
+:root[zen-little-window] #zen-custom-address-box { align-items: center; min-width: 100px; margin: 4px 8px; }
+#zen-custom-address { box-sizing: border-box; flex: 1; width: 100%; border: 1px solid color-mix(in srgb, currentColor 16%, transparent); border-radius: 9px; padding: 8px 11px; background: color-mix(in srgb, currentColor 5%, transparent); color: inherit; font: menu; outline: none; }
+#zen-custom-address:focus { border-color: #9f91e9; box-shadow: 0 0 0 2px #9f91e930; }
+:root[zen-little-window] #nav-bar-customization-target { flex-wrap: nowrap !important; }
+#zen-custom-close { min-width: 28px; font-size: 20px; }
+#zen-custom-close .toolbarbutton-text { display: block !important; }

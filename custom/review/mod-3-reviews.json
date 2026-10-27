@@ -1,0 +1,42 @@
+[
+  {
+    "id": 5291358616,
+    "node_id": "PRR_kwDORDthUs8AAAABO2O5mA",
+    "user": {
+      "login": "copilot-pull-request-reviewer[bot]",
+      "id": 175728472,
+      "node_id": "BOT_kgDOCnlnWA",
+      "avatar_url": "https://avatars.githubusercontent.com/in/946600?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D",
+      "html_url": "https://github.com/apps/copilot-pull-request-reviewer",
+      "followers_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/copilot-pull-request-reviewer%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "<!-- ccr-overview-v2 -->\n\n## Copilot review overview\n\n### \ud83d\udd35 Needs a closer look\n\nExisting user preferences may retain a lower toolbar threshold, causing pinned buttons to overflow before the URL bar is full.\n\n**Review effort:** Lite  \n**Findings:** None\n\n<details>\n<summary><strong>What changed in this PR</strong></summary>\n\nFixes Little Zen navigation, toolbar placement, click handling, theme fallbacks, and documentation.\n\n**Changes:**\n- Keeps navigation in the Little Zen window and default container.\n- Prevents navbar movement and duplicate split-view actions.\n- Adds toolbar overflow handling and readable theme fallbacks.\n- Updates documented behavior.\n\n| File | Description |\r\n|---|---|\r\n| `README.md` | Documents the updated behavior. |\r\n| `littleZen.uc.js` | Implements navigation, layout, click handling, toolbar, and theme changes. |\n</details>\n\n---\n\n\ud83d\udca1 <a href=\"/12th-devs/little-zen/new/main?filename=.github/skills/code-review/SKILL.md\" class=\"Link--inTextBlock\" target=\"_blank\" rel=\"noopener noreferrer\">Add a `code-review` agent skill</a> or configure MCP servers for context-aware, tailored reviews. <a href=\"https://docs.github.com/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review?tool=webui#mcp-servers-and-agent-skills\" class=\"Link--inTextBlock\" target=\"_blank\" rel=\"noopener noreferrer\">Learn more in the docs.</a>",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/12th-devs/little-zen/pull/3#pullrequestreview-5291358616",
+    "pull_request_url": "https://api.github.com/repos/12th-devs/little-zen/pulls/3",
+    "author_association": "NONE",
+    "_links": {
+      "html": {
+        "href": "https://github.com/12th-devs/little-zen/pull/3#pullrequestreview-5291358616"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/12th-devs/little-zen/pulls/3"
+      }
+    },
+    "submitted_at": "2026-09-23T13:06:45Z",
+    "commit_id": "fbd028964b2d3f44b142d6adad33a86e4f23d672"
+  }
+]

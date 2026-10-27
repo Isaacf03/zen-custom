@@ -63,3 +63,9 @@
 
   Services.scriptloader.loadSubScript("chrome://browser/content/zen-components/ZenDragAndDrop.js", this);
 }
+
+// Personal features initialize once browser UI elements exist.
+document.addEventListener("DOMContentLoaded", () => {
+  Services.scriptloader.loadSubScript("chrome://browser/content/zen-custom/LittleZen.js", window);
+  ChromeUtils.importESModule("chrome://browser/content/zen-custom/ZenCustom.sys.mjs").ZenCustom.attach(window);
+}, { once: true });
